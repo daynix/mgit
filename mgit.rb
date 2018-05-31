@@ -1,4 +1,5 @@
 require 'yaml'
+require 'commander'
 
 # MGit - multiple git repositories manager
 class MGit
@@ -47,5 +48,26 @@ class MGit
   end
 end
 
-mgit = MGit.new
-mgit.dump_config
+# MGitCLI - command line parser based in commander gem
+class MGitCLI
+  include Commander::Methods
+
+  def run
+    program :name, 'mgit'
+    program :version, '0.0.1'
+    program :description, 'Multiple git repositories manager.'
+
+    command :dump_config do |c|
+      c.syntax = 'mgit dump_config'
+      c.description = 'Displays mgit configuration'
+      c.action do ||
+        mgit = MGit.new
+        mgit.dump_config
+      end
+    end
+
+    run!
+  end
+end
+
+MGitCLI.new.run
