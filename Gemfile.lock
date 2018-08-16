@@ -3,6 +3,7 @@ GEM
   specs:
     commander (4.4.5)
       highline (~> 1.7.2)
+    git (1.4.0)
     highline (1.7.10)
 
 PLATFORMS
@@ -10,6 +11,7 @@ PLATFORMS
 
 DEPENDENCIES
   commander
+  git
 
 BUNDLED WITH
    1.16.0
