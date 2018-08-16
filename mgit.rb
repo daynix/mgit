@@ -2,6 +2,7 @@ require 'yaml'
 require 'logger'
 require 'commander/import'
 require 'git'
+require 'fileutils'
 
 # MGit - multiple git repositories manager
 class MGit
@@ -13,37 +14,35 @@ class MGit
     end
     @config_file = @config_dir + '/mgit.yml'
     @config_local_file = @config_dir + '/mgit.local.yml'
+    @config = read_config(@config_file)
+    @local_config = read_config(@config_local_file)
   end
 
   def dump_config
-    config = read_config(@config_file)
-    local_config = read_config(@config_local_file)
     puts 'Dumping configuration:'
     puts
-    puts "\tProject directory: #{local_config['project_directory']}"
+    puts "\tProject directory: #{@local_config['project_directory']}"
     puts
     puts "\tListing repositories in the project:"
-    config['repos'].each do |repo|
+    @config['repos'].each do |repo|
       dump_repo_config(repo)
     end
   end
 
   def status
-    config = read_config(@config_file)
-    local_config = read_config(@config_local_file)
-    config['repos'].each do |repo|
-      repo_status(local_config['project_directory'], repo)
+    @config['repos'].each do |repo|
+      repo_status(@local_config['project_directory'], repo)
     end
   end
 
   def clone
-    config = read_config(@config_file)
-    local_config = read_config(@config_local_file)
     puts "Cloning..."
-    config['repos'].each do |repo|
-
-      #Git.clone(repo['upstream'], repo.keys.first)
-      #checkout the right ref
+    FileUtils::mkdir_p @local_config['project_directory']
+    Dir.chdir @local_config['project_directory']
+    @config['repos'].each do |repo|
+      puts "Cloning #{repo['upstream']} to #{repo.keys.first}"
+      g = Git.clone(repo['upstream'], repo.keys.first)
+      g.branch(repo['ref']).checkout
     end
   end
 

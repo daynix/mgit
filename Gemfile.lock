@@ -3,6 +3,7 @@ GEM
   specs:
     commander (4.4.5)
       highline (~> 1.7.2)
+    fileutils (1.1.0)
     git (1.4.0)
     highline (1.7.10)
 
@@ -11,6 +12,7 @@ PLATFORMS
 
 DEPENDENCIES
   commander
+  fileutils
   git
 
 BUNDLED WITH
