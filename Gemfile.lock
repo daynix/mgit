@@ -4,8 +4,10 @@ GEM
     commander (4.4.5)
       highline (~> 1.7.2)
     fileutils (1.1.0)
-    git (1.4.0)
+    git (1.11.0)
+      rchardet (~> 1.8)
     highline (1.7.10)
+    rchardet (1.8.0)
 
 PLATFORMS
   ruby
